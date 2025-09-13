@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <title>ESP32 Data Viewer</title>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        #sensor-value { font-weight: bold; color: #007700; }
+    </style>
+</head>
+<body>
+    <h1>Aktuální data z ESP32</h1>
+    <div>
+        Hodnota senzoru: <span id="sensor-value">---</span>
+    </div>
+    <div id="status" style="margin-top:20px;color:#888;"></div>
+    <script>
+        const statusDiv = document.getElementById("status");
+        const sensorSpan = document.getElementById("sensor-value");
+        const socket = io();
+
+        socket.on("connect", function() {
+            statusDiv.textContent = "Připojeno k serveru";
+        });
+
+        socket.on("disconnect", function() {
+            statusDiv.textContent = "Odpojeno od serveru";
+        });
+
+        socket.on("sensor_data", function(data) {
+            sensorSpan.textContent = data.value;
+            statusDiv.textContent = "Poslední aktualizace: " + new Date().toLocaleTimeString();
+        });
+
+        socket.on("connect_error", function(err) {
+            statusDiv.textContent = "Chyba připojení: " + err.message;
+        });
+    </script>
+</body>
+</html>
