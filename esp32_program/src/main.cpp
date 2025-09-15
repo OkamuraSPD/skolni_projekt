@@ -1,9 +1,46 @@
 // ...existing code...
 #include <WiFi.h>
 
+
+void setup() {
+  Serial.begin(115200);
+
+  // JSON jako text
+  const char* json = "{\"teplota\":23,\"vlhkost\":55}";
+
+  // Vytvoření bufferu
+  StaticJsonDocument<200> doc;
+
+  // Parsování
+  DeserializationError error = deserializeJson(doc, json);
+
+  if (!error) {
+    int teplota = doc["teplota"];
+    int vlhkost = doc["vlhkost"];
+
+    Serial.print("Teplota: ");
+    Serial.println(teplota);
+    Serial.print("Vlhkost: ");
+    Serial.println(vlhkost);
+  }
+}
+
+void loop() {}
+
 // Nastavení Wi-Fi
 const char* ssid     = "Vodafone-87C2";
 const char* password = "9mvH3bgU";
+
+
+
+// senzory
+int teplomerL = 0;
+int potenciometrL = 0;
+int fotorezistorL = 0;
+
+// pole senzorů
+const int MAX_SIZE = 3; 
+int seznam[MAX_SIZE];
 
 // IP adresa serveru (PC, kde běží Python socket server)
 const char* host = "192.168.0.74";  // změň podle IP PC
@@ -41,13 +78,28 @@ void loop() {
   if (!client.connected()) {
     reconnectToServer();
   }
+  // čtení senzorů
+  if (abs(analogRead(34) - teplomerL)>10){
+      seznam[0] = analogRead(34);
+      Serial.println(seznam[0]);
+    }
 
-  int fakeSensor = analogRead(32);  // jen simulace hodnoty
+  if (abs(analogRead(32) - potenciometrL)>10){
+    seznam[1] = analogRead(32);
+    Serial.println(seznam[1]);
+  }
 
-  client.println(String(fakeSensor) + "\n");
+  if (abs(analogRead(33) - fotorezistorL)>10){
+    seznam[2] = analogRead(33);
+    Serial.println(seznam[2]);
+  }
 
-  Serial.print("Odesláno: ");
-  Serial.println(fakeSensor);
+  
+
+  client.println(String(seznam[0])+","+String(seznam[1])+","+String(seznam[2]) + "\n");
+
+  Serial.print("Odesláno: "+ String(seznam[0])+","+String(seznam[1])+","+String(seznam[2]) + "\n");
+  
 
   delay(1000); // pošle každou sekundu
 }
