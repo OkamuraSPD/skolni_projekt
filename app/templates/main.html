@@ -1,0 +1,107 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IoT Dashboard - Přehled</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar (stejná pro všechny stránky) -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>🌡️ IoT Dashboard</h2>
+                <div class="connection-status">
+                    <span class="status-dot" id="status-dot"></span>
+                    <span id="connection-status">Připojování...</span>
+                </div>
+            </div>
+            <ul class="sidebar-nav">
+                <li><a href="index.html" class="nav-link active" id="nav-dashboard">📈 Přehled</a></li>
+                <li><a href="sensors.html" class="nav-link" id="nav-sensors">🔌 Senzory</a></li>
+                <li><a href="live-data.html" class="nav-link" id="nav-live-data">📊 Živá data</a></li>
+                <li><a href="devices.html" class="nav-link" id="nav-devices">💡 Zařízení</a></li>
+                <li><a href="camera.html" class="nav-link" id="nav-camera">📷 Kamera</a></li>
+                <li><a href="history.html" class="nav-link" id="nav-history">📋 Historie</a></li>
+                <li><a href="documentation.html" class="nav-link" id="nav-docs">📚 Dokumentace</a></li>
+                <li><a href="settings.html" class="nav-link" id="nav-settings">⚙️ Nastavení</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <header class="content-header">
+                <h1>📈 Přehled systému</h1>
+                <div class="header-actions">
+                    <button class="btn btn-primary" id="refresh-btn">🔄 Aktualizovat</button>
+                </div>
+            </header>
+
+            <!-- Statistiky -->
+            <section class="stats-grid" id="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">🌡️</div>
+                    <div class="stat-info">
+                        <h3 id="current-temp">-- °C</h3>
+                        <p>Aktuální teplota</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">💧</div>
+                    <div class="stat-info">
+                        <h3 id="current-humidity">-- %</h3>
+                        <p>Vlhkost vzduchu</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🔌</div>
+                    <div class="stat-info">
+                        <h3 id="active-sensors">0</h3>
+                        <p>Aktivní senzory</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">💡</div>
+                    <div class="stat-info">
+                        <h3 id="active-devices">0</h3>
+                        <p>Aktivní zařízení</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Rychlá kontrola -->
+            <section class="quick-controls">
+                <h2>⚡ Rychlé ovládání</h2>
+                <div class="controls-grid" id="quick-controls-grid">
+                    <!-- Dynamicky naplněno z JS -->
+                </div>
+            </section>
+
+            <!-- Poslední data -->
+            <section class="recent-data">
+                <h2>📊 Poslední naměřené hodnoty</h2>
+                <div class="data-table" id="recent-data-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Senzor</th>
+                                <th>Hodnota</th>
+                                <th>Čas</th>
+                                <th>Stav</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recent-data-body">
+                            <!-- Data z WebSocketů -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <script src="js/script.js"></script>
+    <script src="js/websocket.js"></script>
+</body>
+</html>
