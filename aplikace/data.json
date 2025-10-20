@@ -1,0 +1,31 @@
+{
+    "sensors": [
+        {
+            "id": 1,
+            "pin": "32",
+            "type": "digital",
+            "name": "tre",
+            "sensor_type": "teplota",
+            "location": "pokoj",
+            "created_at": "2025-10-20 20:59:59"
+        },
+        {
+            "id": 2,
+            "pin": "25",
+            "type": "digital",
+            "name": "pir",
+            "sensor_type": "pohyb",
+            "location": "pookj2",
+            "created_at": "2025-10-20 21:45:13"
+        },
+        {
+            "id": 3,
+            "pin": "1",
+            "type": "analog",
+            "name": "teplotní",
+            "sensor_type": "Teplota",
+            "location": "pokoj3",
+            "created_at": "2025-10-20 22:12:02"
+        }
+    ]
+}

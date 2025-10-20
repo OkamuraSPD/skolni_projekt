@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Správa Senzorů - Hlavní stránka</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background-color: #f5f5f5;
+            text-align: center;
+        }
+        .header {
+            margin-bottom: 50px;
+        }
+        .nav-cards {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .nav-card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-decoration: none;
+            color: #333;
+            width: 200px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .nav-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+            text-decoration: none;
+            color: #333;
+        }
+        .nav-card h2 {
+            margin-top: 0;
+            color: #007bff;
+        }
+        .nav-card p {
+            color: #666;
+            line-height: 1.5;
+        }
+        .icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        .config-card {
+            border-top: 4px solid #28a745;
+        }
+        .monitor-card {
+            border-top: 4px solid #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Správa Senzorů</h1>
+        <p>Vítejte v systému pro správu a monitorování senzorů</p>
+    </div>
+    
+    <div class="nav-cards">
+        <a href="/config" class="nav-card config-card">
+            <div class="icon">⚙️</div>
+            <h2>Konfigurace</h2>
+            <p>Správa senzorů - přidávání, úprava a mazání senzorů v systému</p>
+        </a>
+        
+        <a href="/monitor" class="nav-card monitor-card">
+            <div class="icon">📊</div>
+            <h2>Monitorování</h2>
+            <p>Zobrazení dat ze senzorů v reálném čase a historických měření</p>
+        </a>
+    </div>
+</body>
+</html>
