@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Monitor senzoru</title>
+	<style>
+		
+	</style>
+</head>
+<body>
+	<h1>Seznam senzorů</h1>
+	
+
+	<ul id="sensors">
+	
+	</ul>
+
+	
+
+
+    <script>
+    // 🕒 Každé 2 sekundy načti data z Flasku
+    async function fetchData() {
+      try {
+        
+
+        const response = await fetch('/get_sensors');
+        const data = await response.json();
+
+        if (Object.getOwnPropertyNames(data).length > document.getElementById("sensors").children.length){
+        for (let i=0;i<Object.keys(data).length;i++){
+            const label = document.createElement("li");
+            label.id = `sensor_${i+1}`;
+            label.name = `sensor_${i+1}`;
+            document.getElementById("sensors").appendChild(label);
+        }}
+
+        var sensorsList = document.getElementById("sensors").children;
+
+
+       let i = 0;
+        for (const [key, value] of Object.entries(data)) {
+        sensorsList[i].innerText = `Sensor na pinu ${key}: ${value}`;
+        i++;}
+      } catch (error) {
+        document.getElementById('sensor_1').innerText = 'Chyba při načítání dat!';
+      }
+    }
+
+    // 🔁 Spouštění cyklicky každé 2 sekundy
+    fetchData(); // hned při načtení
+    setInterval(fetchData, 1000);
+    </script>
+</body>
+</html>
+

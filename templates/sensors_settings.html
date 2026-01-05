@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <title>Flask + Auto Refresh JS</title>
+  
+</head>
+<body>
+  <h1>Automatické načítání dat z Flasku</h1>
+
+  <div id="dataResult">Načítám data...</div>
+
+  <form id="myForm">
+    <h3>Odeslat data na Flask:</h3>
+    <input type="text" name="sensor_type" placeholder="sensor_type" required>
+    <br>
+    <input type="text" name="A/D" placeholder="A/D" required>
+    <br>
+    <input type="text" name="slot" placeholder="slot" required>
+    <br>
+    <input type="text" name="pin" placeholder="pin" required>
+    <br>
+    
+    <button type="submit">Odeslat</button>
+  </form>
+  <br>
+  <div class="output" id="formResult"></div>
+  <br>
+  <form id="deleteForm">
+    <h3>Smazat data podle ID:</h3>
+    <input type="number" name="delete_id" placeholder="ID" required id="delete_id">
+    <br>
+    <button type="submit">Smazat</button>
+
+  </form>
+  <br>
+  <a href="/monitor">monitor</a>
+
+  <script>
+    // 🕒 Každé 2 sekundy načti data z Flasku
+    async function fetchData() {
+      try {
+        const response = await fetch('/get_data');
+        const data = await response.json();
+        document.getElementById('dataResult').innerText = 
+          `Zpráva: ${data.message}, hodnota: ${data.value}, stav: ${data.status}`;
+      } catch (error) {
+        document.getElementById('dataResult').innerText = 'Chyba při načítání dat!';
+      }
+    }
+
+    // 🔁 Spouštění cyklicky každé 2 sekundy
+    fetchData(); // hned při načtení
+    setInterval(fetchData, 2000);
+
+    // ✅ Odeslání formuláře na Flask
+    document.getElementById('myForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const response = await fetch('/submit_sensor', {
+        method: 'POST',
+        body: formData
+      });
+
+
+      
+
+
+      const data = await response.json();
+      document.getElementById('formResult').innerText = data.message;
+    });
+
+    document.getElementById('deleteForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const response = await fetch('/delete_sensor', {
+        method: 'POST',
+        body: formData
+      });
+      try {
+        const data = await response.json();
+        document.getElementById('formResult').innerText = data.message;
+        // vyčistit input po úspěchu
+        if (data.status === 'success') {
+          e.target.reset();
+        }
+      } catch (err) {
+        document.getElementById('formResult').innerText = 'Chyba při mazání.';
+      }
+    });
+  </script>
+</body>
+</html>

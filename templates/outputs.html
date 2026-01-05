@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Sledování výstupů</title>
+	<style>
+		
+	</style>
+</head>
+<body>
+	<h1>Seznam výstupních zařízení</h1>
+	
+
+	<ul id="outputs">
+	
+	</ul>
+
+	
+
+
+    <script>
+    // 🕒 Každé 2 sekundy načti data z Flasku
+    async function fetchData() {
+      try {
+        
+
+        const response = await fetch('/get_outputs');
+        const data = await response.json();
+
+        if (Object.getOwnPropertyNames(data).length > document.getElementById("outputs").children.length){
+        for (let i=0;i<Object.keys(data).length;i++){
+            const label = document.createElement("li");
+            label.id = `output_${i+1}`;
+            label.name = `output_${i+1}`;
+            document.getElementById("outputs").appendChild(label);
+        }}
+
+        var outputList = document.getElementById("outputs").children;
+
+
+       let i = 0;
+        for (const [key, value] of Object.entries(data)) {
+        outputList[i].innerText = `Výstupní zařízení ${key}: ${value}`;
+        i++;}
+      } catch (error) {
+        document.getElementById('output_1').innerText = 'Chyba při načítání dat!';
+      }
+    }
+
+    // 🔁 Spouštění cyklicky každé 2 sekundy
+    fetchData(); // hned při načtení
+    setInterval(fetchData, 1000);
+    </script>
+</body>
+</html>
+
