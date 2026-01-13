@@ -22,7 +22,7 @@ class ESP32Simulator:
                     new_value = self.send_digital_sensors_value()
                     JsonManager('static/data.json').update_by_pin(sensor["pin"], new_value)
                     print(f"Sensor Pin: {sensor['pin']}, New Value: {new_value}")
-                if sensor["A/D"] == "A":
+                elif sensor["A/D"] == "A":
                     new_value = self.send_analog_sensors_value()
                     JsonManager('static/data.json').update_by_pin(sensor["pin"], new_value)
                     print(f"Sensor Pin: {sensor['pin']}, New Value: {new_value}")
